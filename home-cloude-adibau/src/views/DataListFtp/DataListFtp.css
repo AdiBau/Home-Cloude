@@ -1,0 +1,43 @@
+a {
+    display: none;
+}
+.pustaLista {
+    font-size: 15px;
+    justify-content: center;
+    display: grid;
+    margin: 0 auto;
+}
+
+.list {
+    display: block;
+    width: 100%;
+    padding-top: 42px;
+    background-color: lightblue;
+}
+
+.list-item {
+    display: grid;
+    background-color: #dddddd;
+    margin: 5px 1px;
+    padding: 3px 10px;
+    grid-template-columns: 20px auto 30px 48px;
+    gap: 5px;
+    font-size: 15px;
+    align-items: center;
+}
+.size {
+    font-size: 10px;
+}
+img {
+    width: 100%;
+}
+.list:last-child svg {
+    justify-self: right;
+}
+.size {
+    justify-self: right;
+}
+
+.openInput {
+    display: none;
+}
