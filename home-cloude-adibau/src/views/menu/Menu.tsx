@@ -1,24 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import {ContextHome, ContextOptionsFTP} from "../../contextHomeCloude/contextHome";
+import { ContextHome, ContextOptionsFTP, optionsFTP } from "../../contextHomeCloude/contextHome";
 
-import {adresPath, CookieOptions} from "../../helpFunction/helpFunction";
+import { adresPath, CookieOptions } from "../../helpFunction/helpFunction";
 
 import "./menu.css";
-import {MenuBars} from "./MenuBars/MenuBars";
-import {MenuConectionIcon} from "./MenuBars/ConnectionIcon";
+import { MenuBars } from "./MenuBars/MenuBars";
+import { MenuConectionIcon } from "./MenuBars/ConnectionIcon";
 import { toast } from "react-toastify";
-import {MenuButtons} from "./MenuButtons";
+import { MenuButtons } from "./MenuButtons";
 
-export interface Options {
-	urlFtp: string;
-	passFtp: string;
-	userFtp: string;
-	portFtp: string;
-}
 export const Menu = () => {
-	const [options, setOptions] = useState<Options>({ urlFtp: "", passFtp: "", userFtp: "", portFtp: "" });
-	
+	const [options, setOptions] = useState<optionsFTP>({ urlFtp: "", passFtp: "", userFtp: "", portFtp: "" });
 
 	useEffect(() => {
 		getOptions();
@@ -27,19 +20,20 @@ export const Menu = () => {
 	const contextHome = useContext(ContextHome);
 	if (!contextHome) return null;
 	const { setLoading, connect } = contextHome;
-	const setOption = (name:string, value:string) => {
+
+	const setOption = (name: string, value: string) => {
 		const d = new Date();
 		d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
 		let expires = `expires=${d.toUTCString()}`;
-		
+
 		document.cookie = `${name}=${value}; ${expires}; path=/`;
 	};
 	const saveOptions = () => {
 		setLoading(true);
-		setOption('urlFtp', options.urlFtp);
-		setOption('portFtp', options.portFtp);
-		setOption('userFtp', options.userFtp);
-		setOption('passFtp', options.passFtp);
+		setOption("urlFtp", options.urlFtp);
+		setOption("portFtp", options.portFtp);
+		setOption("userFtp", options.userFtp);
+		setOption("passFtp", options.passFtp);
 		setLoading(false);
 	};
 	const getOptions = () => {
@@ -85,29 +79,24 @@ export const Menu = () => {
 		setLoading(false);
 	};
 
-	
 	return (
 		<>
-		
 			<div className="menu">
-				<ContextOptionsFTP.Provider value={{
-					getOptions,
-					setOptions,
-					saveOptions,
-					options,
-				}}>
-				
-				<MenuBars />
+				<ContextOptionsFTP.Provider
+					value={{
+						getOptions,
+						setOptions,
+						saveOptions,
+						options,
+					}}
+				>
+					<MenuBars />
 					<div className="center">
 						<div className="MenuPath">{adresPath.path}</div>
-						{connect && adresPath.path !== "cloude://" &&  <MenuButtons  />}
-
+						{connect && adresPath.path !== "cloude://" && <MenuButtons />}
 					</div>
-					<MenuConectionIcon  />
+					<MenuConectionIcon />
 				</ContextOptionsFTP.Provider>
-				
-				
-			
 			</div>
 			{/* {buttonNewFolderClick && <FormsNewFolder setButtonNewFolderClick={setButtonNewFolderClick} listAll={listAll} />}  */}
 		</>

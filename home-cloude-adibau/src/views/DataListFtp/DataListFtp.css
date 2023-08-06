@@ -1,43 +1,62 @@
 a {
-    display: none;
+	display: none;
 }
 .pustaLista {
-    font-size: 15px;
-    justify-content: center;
-    display: grid;
-    margin: 0 auto;
+	font-size: 15px;
+	justify-content: center;
+	display: grid;
+	margin: 0 auto;
 }
 
 .list {
-    display: block;
-    width: 100%;
-    padding-top: 42px;
-    background-color: lightblue;
+	display: grid;
+	margin-top: 59px;
+	/* border-top: 1px solid white; */
+	width: 100%;
+	background-color: rgba(41, 166, 220, 0.1);
+	/* overflow-y: scroll; */
+	/* max-height: 100vw; */
+	/* scrollbar-color: #29a6dc lightblue; */
 }
+.selected {
+	background-color: rgba(0, 255, 0, 0.7);
 
+	font-weight: bolder;
+}
 .list-item {
-    display: grid;
-    background-color: #dddddd;
-    margin: 5px 1px;
-    padding: 3px 10px;
-    grid-template-columns: 20px auto 30px 48px;
-    gap: 5px;
-    font-size: 15px;
-    align-items: center;
+	display: grid;
+	background-color: rgba(41, 166, 220, 0.5);
+	margin: 5px 1px;
+	padding: 3px 10px;
+	grid-template-columns: 20px auto 30px 48px;
+	gap: 5px;
+	font-size: 15px;
+	align-items: center;
+	cursor: pointer;
+	transition: 0.2;
+	-webkit-transition: 0.2;
+	-moz-transition: 0.2;
+	-ms-transition: 0.2;
+	-o-transition: 0.2;
+}
+.list-item:hover {
+	background-color: rgba(0, 255, 0, 0.7);
+
+	font-weight: bolder;
 }
 .size {
-    font-size: 10px;
+	font-size: 10px;
 }
 img {
-    width: 100%;
+	width: 100%;
 }
 .list:last-child svg {
-    justify-self: right;
+	justify-self: right;
 }
 .size {
-    justify-self: right;
+	justify-self: right;
 }
 
 .openInput {
-    display: none;
+	display: none;
 }

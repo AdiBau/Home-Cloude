@@ -1,51 +1,38 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
-import {ContextHome, optionsFTP} from "./contextHomeCloude/contextHome";
+import { ContextHome, optionsFTP } from "./contextHomeCloude/contextHome";
 import { Spiner } from "../src/spinerListki/spiner";
 import { sortData, readList, pathPwd, DataResponse } from "./helpFunction/helpFunction";
 import { Menu } from "./views/menu/Menu";
-import { ToastContainer, toast } from "react-toastify";
-
-
-
+import { ToastContainer } from "react-toastify";
+import logo from "./logo/adibauLogo.png";
 import "react-toastify/dist/ReactToastify.css";
-import {DataListFtp} from "./views/DataListFtp/DataListFtp";
+import { DataListFtp } from "./views/DataListFtp/DataListFtp";
+import { info } from "console";
+import { Stopka } from "./views/Stopka/Stopka";
 library.add(fas);
 function App() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [reload, setReload] = useState<boolean>(false);
 	const [connect, setConnect] = useState(false);
-	const [options, setOptions]=useState<optionsFTP>(
-		{
-			urlFtp: '',
-			passFtp: '',
-			userFtp: '',
-			portFtp: '',
-		});
-	
-	const context = useContext(ContextHome);
 
-	const [data, setData] = useState<DataResponse[] | [] >([]);
+	const [data, setData] = useState<DataResponse[] | []>([]);
 
-	
-	const listAll = async ()  =>   {
+	const listAll = async () => {
 		setLoading(true);
 		setData(await sortData(await readList()));
 		await pathPwd();
 		setLoading(false);
 	};
 	useEffect(() => {
-		if(connect){
-			listAll()
+		if (connect) {
+			listAll();
 		}
-		return () => {
-		
-		};
+		return () => {};
 	}, [reload]);
-	
-	
+
 	return (
 		<>
 			<ContextHome.Provider
@@ -60,17 +47,17 @@ function App() {
 					reload,
 				}}
 			>
+				{loading && <Spiner />}
 				<div className="container">
-					{loading && <Spiner />}
 					<Menu />
-					<DataListFtp/>
-					 {/*<List connect={connect} data={data} setData={setData} setLoading={setLoading} setReload={setReload} /> */}
-				
+					{connect && <DataListFtp />}
 				</div>
+				<Stopka />
 			</ContextHome.Provider>
+
 			<ToastContainer
 				position="top-center"
-				autoClose={3000}
+				autoClose={2000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
@@ -79,6 +66,7 @@ function App() {
 				draggable
 				pauseOnHover
 				theme="colored"
+				closeButton
 			/>
 		</>
 	);
