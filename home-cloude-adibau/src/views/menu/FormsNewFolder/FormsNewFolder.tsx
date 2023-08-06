@@ -1,7 +1,7 @@
 import React, { useState, useContext, SyntheticEvent } from "react";
 
 import { toast } from "react-toastify";
-import { homeOrSerwer } from "../../../helpFunction/homeOrSerwer";
+import { Adress } from "../../../helpFunction/homeOrSerwer";
 import { ContextHome } from "../../../contextHomeCloude/contextHome";
 import "./FormNewFolder.css";
 
@@ -18,8 +18,6 @@ export const FormsNewFolder = (props: Props) => {
 
 	const { setReload, reload } = context;
 
-	let url = homeOrSerwer ? "http://192.168.1.123:8000/ftp/" : "https://biuro.adibau.pl/ftp/";
-
 	const CreateNewFolder = async (e: SyntheticEvent) => {
 		e.preventDefault();
 		if (!inputNewFolderValue) {
@@ -30,12 +28,10 @@ export const FormsNewFolder = (props: Props) => {
 			return toast.error("Wprowadź nazwe bez kropki");
 		}
 		try {
-			await fetch(`${url}newfolder/${inputNewFolderValue}`, { method: "put" });
+			await fetch(`${Adress.newFolder}${inputNewFolderValue}`, { method: "put" });
 			toast.success(`Folder o nazwie ${inputNewFolderValue} stworzony`);
 			setReload(!reload);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 		setNewFolder(false);
 		setInputNewFolderValue("");
 	};

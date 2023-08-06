@@ -91,10 +91,7 @@ export const Menu = () => {
 					}}
 				>
 					<MenuBars />
-					<div className="center">
-						<div className="MenuPath">{adresPath.path}</div>
-						{connect && adresPath.path !== "cloude://" && <MenuButtons />}
-					</div>
+					<div className="MenuCenter">{connect && adresPath.path !== "cloude://" && <MenuButtons />}</div>
 					<MenuConectionIcon />
 				</ContextOptionsFTP.Provider>
 			</div>

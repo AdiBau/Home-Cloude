@@ -1,5 +1,3 @@
-import { promises } from "dns";
-
 import { Adress } from "./homeOrSerwer";
 
 export enum CookieOptions {
@@ -11,9 +9,9 @@ export enum CookieOptions {
 
 export interface DataResponse {
 	type: number;
-	path: string,
-	name: string,
-	size: number
+	path: string;
+	name: string;
+	size: number;
 }
 
 export interface ErrorFtp {

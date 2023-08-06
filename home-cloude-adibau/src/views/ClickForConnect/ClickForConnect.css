@@ -1,0 +1,31 @@
+.ClickForConnect {
+	box-sizing: border-box;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	top: 5px;
+	right: 70px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 10px;
+	color: black;
+	animation: animated 0.7s linear infinite alternate;
+	-webkit-animation: animated 0.7s linear infinite alternate;
+}
+.ClickForConnect p {
+	font-size: 16px;
+	font-weight: bolder;
+	text-decoration: underline;
+	text-size-adjust: 10px;
+}
+
+@keyframes animated {
+	0% {
+		font-size: 8px;
+	}
+	100% {
+		font-size: 16px;
+	}
+}

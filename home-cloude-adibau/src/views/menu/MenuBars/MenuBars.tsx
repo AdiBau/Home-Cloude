@@ -1,26 +1,19 @@
-import React, {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import {OptionsFTP} from "./OptionsFTP";
-import {MenuOptions} from "./MenuOptions";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MenuOptions } from "./MenuOptions";
 
-
-export const MenuBars =()=>{
-	
-	const [bars, setBars] = useState<boolean>(true)
-	const [showMenuOptions, setShowMenuOptions] = useState<boolean>(false)
+export const MenuBars = () => {
+	const [bars, setBars] = useState<boolean>(true);
+	const [showMenuOptions, setShowMenuOptions] = useState<boolean>(false);
 	const openMenu = () => {
-		setBars(!bars);
-		setShowMenuOptions(!showMenuOptions);
+		setBars((prev) => !prev);
+		setShowMenuOptions((prev) => !prev);
 	};
-	return(
-		
-			<div className={'MenuBars'}	>
-			
+	return (
+		<div className={"MenuBars"}>
 			{bars && <FontAwesomeIcon icon="bars" size="xl" onClick={openMenu} />}
 			{!bars && <FontAwesomeIcon icon="bars-staggered" size="xl" onClick={openMenu} />}
 			{showMenuOptions && <MenuOptions />}
-			</div>
-			
-	)
-}
+		</div>
+	);
+};

@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 
-import { homeOrSerwer } from "../../helpFunction/homeOrSerwer";
+import { Adress } from "../../helpFunction/homeOrSerwer";
 import { ContextHome } from "../../contextHomeCloude/contextHome";
 import { adresPath } from "../../helpFunction/helpFunction";
 import { toast } from "react-toastify";
@@ -10,8 +10,6 @@ export const MenuButtons = () => {
 	const [newFolder, setNewFolder] = useState<boolean>(false);
 
 	const openInput = useRef<HTMLInputElement>(null);
-
-	let url = homeOrSerwer ? "http://192.168.1.123:8000/ftp/" : "https://biuro.adibau.pl/ftp/";
 
 	const context = useContext(ContextHome);
 
@@ -34,34 +32,30 @@ export const MenuButtons = () => {
 		const file = await openInput.current.files[0];
 
 		const fileName = file.name;
-		const fileType = file.type;
-
-		console.log(file);
-		console.log(fileName, fileType, fileName);
 
 		formData.append("file", file, fileName);
 
 		try {
-			const data = await fetch(`${url}plik`, {
+			const data = await fetch(Adress.send, {
 				method: "post",
 				body: formData,
 			});
 			if (data.status === 201) {
-				setReload(!reload);
 				toast.success(`Plik :  ${fileName} Pomyślnie zapisany`);
 			} else {
 				toast.error(`Plik :  ${fileName} NIE ZOSTAŁ ZAPISANY`);
 			}
-			toast.error(`Plik :  ${fileName} NIE ZOSTAŁ ZAPISANY`);
 		} catch (error) {
+			toast.error(`Plik :  ${fileName} NIE ZOSTAŁ ZAPISANY`);
 		} finally {
 			setLoading(false);
+			setReload(!reload);
 		}
 	};
 	const goBack = async () => {
 		try {
 			setLoading(true);
-			await fetch(`${url}listGoBack`);
+			await fetch(`${Adress.back}`);
 			setReload(!reload);
 		} catch (error) {
 		} finally {
@@ -73,13 +67,13 @@ export const MenuButtons = () => {
 		<div className={"buttonsNavigation"}>
 			<input type="file" className="openInput" ref={openInput} onChange={openInputSelectedFileHandler}></input>
 			<button className="button menuButton" onClick={() => openInput.current?.click()}>
-				Zapisz plik
+				Save file
 			</button>
 			<button className="button menuButton" onClick={goBack}>
-				WSTECZ{" "}
+				Back
 			</button>
 			<button className="button menuButton" onClick={() => setNewFolder(true)}>
-				Nowy Folder
+				New folder
 			</button>
 			{newFolder && <FormsNewFolder setNewFolder={setNewFolder} />}
 		</div>

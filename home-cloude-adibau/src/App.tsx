@@ -1,17 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import { ContextHome, optionsFTP } from "./contextHomeCloude/contextHome";
+import { ContextHome } from "./contextHomeCloude/contextHome";
 import { Spiner } from "../src/spinerListki/spiner";
 import { sortData, readList, pathPwd, DataResponse } from "./helpFunction/helpFunction";
 import { Menu } from "./views/menu/Menu";
 import { ToastContainer } from "react-toastify";
-import logo from "./logo/adibauLogo.png";
-import "react-toastify/dist/ReactToastify.css";
+
 import { DataListFtp } from "./views/DataListFtp/DataListFtp";
-import { info } from "console";
+import { Header } from "./views/pwaInstall/PwaInstall";
 import { Stopka } from "./views/Stopka/Stopka";
+import { ClickForConnect } from "./views/ClickForConnect/ClickForConnect";
 library.add(fas);
 function App() {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +36,7 @@ function App() {
 
 	return (
 		<>
+			<Header />
 			<ContextHome.Provider
 				value={{
 					setLoading,
@@ -48,8 +50,10 @@ function App() {
 				}}
 			>
 				{loading && <Spiner />}
+
 				<div className="container">
 					<Menu />
+					{!connect && <ClickForConnect />}
 					{connect && <DataListFtp />}
 				</div>
 				<Stopka />

@@ -1,21 +1,18 @@
-import React, {useContext, useState} from "react";
-import {ContextHome, ContextOptionsFTP} from "../../../contextHomeCloude/contextHome";
-// import { ContextHome } from "../../../contextHomeCloude/contextHome";
+import React, { useContext } from "react";
+import { ContextOptionsFTP } from "../../../contextHomeCloude/contextHome";
 
 interface Props {
-	setUstawieniaFTP:(e: boolean)=> void
-
+	setUstawieniaFTP: (e: boolean) => void;
 }
-export const OptionsFTP = (props:Props) => {
-
+export const OptionsFTP = (props: Props) => {
 	const contextOptionsFTP = useContext(ContextOptionsFTP);
 	if (!contextOptionsFTP) return null;
-	const {getOptions,options, setOptions,saveOptions} = contextOptionsFTP;
+	const { getOptions, options, setOptions, saveOptions } = contextOptionsFTP;
 	const handlerAnuluj = () => {
-		props.setUstawieniaFTP(false)
+		props.setUstawieniaFTP(false);
 	};
-	
-	return 	(
+
+	return (
 		<>
 			<div className="setOptions">
 				<div className="options">
@@ -29,21 +26,17 @@ export const OptionsFTP = (props:Props) => {
 					<input type="password" id={"pass"} placeholder="password" value={options.passFtp} onChange={(e) => setOptions({ ...options, passFtp: e.target.value })} />
 				</div>
 				<div className="buttonsOptions">
-					<button
-						className={"zapisz button"}
-						  onClick={saveOptions}>
-											Zapisz
+					<button className={"zapisz button"} onClick={saveOptions}>
+						Zapisz
 					</button>
-					<button
-						className={"wczytaj button"}
-						  onClick={getOptions}>
-					
-												Wczytaj
+					<button className={"wczytaj button"} onClick={getOptions}>
+						Wczytaj
 					</button>
-					<button	className={"anuluj button"}  onClick={handlerAnuluj}>Anuluj	</button>
+					<button className={"anuluj button"} onClick={handlerAnuluj}>
+						Anuluj{" "}
+					</button>
 				</div>
 			</div>
 		</>
-)
-	
+	);
 };

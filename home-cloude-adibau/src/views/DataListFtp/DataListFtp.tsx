@@ -1,18 +1,13 @@
-import React, { useContext, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useRef, useState } from "react";
+
 import "./DataListFtp.css";
-import { useLongPress } from "use-long-press";
-import { homeOrSerwer } from "../../helpFunction/homeOrSerwer";
-import { readList, sortData, pathPwd } from "../../helpFunction/helpFunction";
+
+import { Adress } from "../../helpFunction/homeOrSerwer";
+import { readList, sortData, pathPwd, adresPath } from "../../helpFunction/helpFunction";
 import { ContextHome } from "../../contextHomeCloude/contextHome";
 
 export const DataListFtp = () => {
-	let url = homeOrSerwer ? "http://192.168.1.123:8000/ftp/" : "https://biuro.adibau.pl/ftp/";
-	const selectedDIV = useRef<HTMLDivElement>(null);
-
-	const bind = useLongPress(() => {
-		selectedDIV.current?.classList.add("selected");
-	});
+	const [longPressed, setLongPressed] = useState<boolean>(false);
 
 	const context = useContext(ContextHome);
 	const linkA = useRef<HTMLAnchorElement>(null);
@@ -24,14 +19,14 @@ export const DataListFtp = () => {
 		setLoading(true);
 		if (name.indexOf(".") === -1) {
 			try {
-				url += "list/GoIn/" + name;
-				const goIn = await fetch(url);
+				const goIn = await fetch(`${Adress.readOne}/${name}`);
 				if (goIn.status === 200) {
 					await pathPwd();
 					setData(await sortData(await readList()));
 					setLoading(false);
 				}
 			} catch (error) {
+			} finally {
 				setLoading(false);
 			}
 		} else {
@@ -43,12 +38,33 @@ export const DataListFtp = () => {
 		setLoading(true);
 		if (name.indexOf(".") !== -1) {
 			if (!linkA.current) return;
-			linkA.current.setAttribute("href", `${url}listGetOne/${name}`);
+			linkA.current.setAttribute("href", `${Adress.getOne}/${name}`);
 			linkA.current.click();
 		}
 		setLoading(false);
 	};
 
+	//longPress
+	let tab = {
+		jeden: 0,
+		dwa: 0,
+	};
+	const moje = (a: HTMLDivElement) => {
+		tab.jeden = Number(new Date().getTime());
+	};
+	const moje2 = (a: HTMLDivElement, name: string) => {
+		tab.dwa = Number(new Date().getTime());
+
+		const wynik = tab.dwa - tab.jeden;
+		if (wynik < 250) {
+			(async () => await goInFile(name))();
+		} else {
+			a.classList.toggle("selected");
+
+			setLongPressed((prev) => !prev);
+		}
+	};
+	//longPress End
 	return (
 		<>
 			<a href="https://getMy.pl" ref={linkA} style={{ display: "none" }}>
@@ -62,6 +78,8 @@ export const DataListFtp = () => {
 						<p>. . . Brak plików do wyświetlenia . . .</p>
 					</div>
 				)}
+
+				<div className="MenuPath">{adresPath.path}</div>
 
 				{data.map((e, i) => {
 					if (i === data.length - 1) {
@@ -83,12 +101,25 @@ export const DataListFtp = () => {
 					}
 
 					return (
-						<div className="list-item" key={i} ref={selectedDIV} onClick={() => goInFile(e.name)} {...bind()}>
+						<div
+							className="list-item"
+							key={i}
+							onMouseDown={(a) => moje(a.currentTarget)}
+							onMouseUp={(a) => moje2(a.currentTarget, e.name)}
+							//onTouchStart={(a) => moje(a.currentTarget)}
+							//onTouchEnd={(a) => moje2(a.currentTarget, e.name)}
+						>
 							<div className="img">
 								<img src={icon} alt={`icon Logo ${icon}`} />
 							</div>
-							<p onClick={() => goInFile(e.name)}>{e.name}</p>
-							{e.size > 0 && <FontAwesomeIcon icon="cloud-arrow-down" size="1x" />}
+							<p
+							// onMouseDown={(a) => moje(a.currentTarget)}
+							// onMouseUp={(a) => moje2(a.currentTarget, e.name)}
+							// onTouchStart={(a) => moje(a.currentTarget)}
+							// onTouchEnd={(a) => moje2(a.currentTarget, e.name)}
+							>
+								{e.name}
+							</p>
 							<p className="size">{e.size > 0 && (e.size / 1024 < 1 ? (e.size / 1024).toFixed(2) + "KB" : (e.size / 1024 / 1024).toFixed(2) + " MB")}</p>
 						</div>
 					);

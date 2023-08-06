@@ -8,27 +8,28 @@ a {
 	margin: 0 auto;
 }
 
-.list {
-	display: grid;
-	margin-top: 59px;
-	/* border-top: 1px solid white; */
-	width: 100%;
-	background-color: rgba(41, 166, 220, 0.1);
-	/* overflow-y: scroll; */
-	/* max-height: 100vw; */
-	/* scrollbar-color: #29a6dc lightblue; */
-}
 .selected {
 	background-color: rgba(0, 255, 0, 0.7);
-
 	font-weight: bolder;
+}
+.list {
+	display: grid;
+	box-sizing: border-box;
+	margin-top: 60px;
+	border-top: 1px solid white;
+	width: 100%;
+	/* max-height: 90%; */
+	/* overflow-y: scroll; */
+	gap: 5px;
+	background-color: rgba(41, 166, 220, 0.1);
 }
 .list-item {
 	display: grid;
 	background-color: rgba(41, 166, 220, 0.5);
-	margin: 5px 1px;
-	padding: 3px 10px;
-	grid-template-columns: 20px auto 30px 48px;
+	margin: 0 10px;
+	padding: 1px 10px;
+	grid-template-columns: 20px auto 60px;
+	height: 45px;
 	gap: 5px;
 	font-size: 15px;
 	align-items: center;
