@@ -75,7 +75,7 @@ export const Menu = () => {
 			userFtp: myCookie.userFtp,
 			passFtp: myCookie.passFtp,
 		});
-
+		toast.success("Wczytano ustawienia FTP");
 		setLoading(false);
 	};
 
@@ -95,7 +95,6 @@ export const Menu = () => {
 					<MenuConectionIcon />
 				</ContextOptionsFTP.Provider>
 			</div>
-			{/* {buttonNewFolderClick && <FormsNewFolder setButtonNewFolderClick={setButtonNewFolderClick} listAll={listAll} />}  */}
 		</>
 	);
 };

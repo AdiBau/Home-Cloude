@@ -19,6 +19,7 @@
 	font-weight: bolder;
 	text-decoration: underline;
 	text-size-adjust: 10px;
+	padding: 0 8px;
 }
 
 @keyframes animated {

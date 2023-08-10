@@ -9,6 +9,7 @@ export enum Adress {
 	back = "https://biuro.adibau.pl/ftp/listGoBack",
 	send = "https://biuro.adibau.pl/ftp/plik",
 	newFolder = "https://biuro.adibau.pl/ftp/newfolder/",
+	removeFile = "https://biuro.adibau.pl/ftp/removeFile/",
 }
 
 // export enum Adress {
@@ -20,6 +21,7 @@ export enum Adress {
 // back = "http://127.0.0.1:8080/ftp/listGoBack",
 // send = "http://127.0.0.1:8000/ftp/plik",
 // newFolder = "http://127.0.0.1:8000/ftp/newfolder/",
+// removeFile = "https://biuro.adibau.pl/ftp/removeFile/",
 //
 // }
 // home = true;

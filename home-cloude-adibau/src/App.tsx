@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
-import "./App.css";
+import { ToastContainer } from "react-toastify";
 import { ContextHome } from "./contextHomeCloude/contextHome";
 import { Spiner } from "../src/spinerListki/spiner";
 import { sortData, readList, pathPwd, DataResponse } from "./helpFunction/helpFunction";
 import { Menu } from "./views/menu/Menu";
-import { ToastContainer } from "react-toastify";
-
 import { DataListFtp } from "./views/DataListFtp/DataListFtp";
-import { Header } from "./views/pwaInstall/PwaInstall";
 import { Stopka } from "./views/Stopka/Stopka";
 import { ClickForConnect } from "./views/ClickForConnect/ClickForConnect";
+import "./App.css";
 library.add(fas);
 function App() {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -36,7 +34,6 @@ function App() {
 
 	return (
 		<>
-			<Header />
 			<ContextHome.Provider
 				value={{
 					setLoading,
@@ -72,6 +69,7 @@ function App() {
 				theme="colored"
 				closeButton
 			/>
+			{/* <Header /> */}
 		</>
 	);
 }

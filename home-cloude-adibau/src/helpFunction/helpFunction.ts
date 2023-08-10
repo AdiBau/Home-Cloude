@@ -26,9 +26,7 @@ export const pathPwd = async () => {
 	try {
 		const { pwd } = await (await fetch(Adress.path)).json();
 		adresPath.path = adresPath.home + pwd;
-	} catch (error) {
-		throw new Error("pathPwd error: " + (error as Error).message);
-	}
+	} catch (error) {}
 };
 
 export const sortData = async (data: DataResponse[]) => {
@@ -50,10 +48,6 @@ export const readList = async () => {
 		result.push(adresPath);
 		return result as DataResponse[];
 	} catch (error) {
-		// throw new Error("pathPwd error: " + (error as Error).message);
-		// document.querySelector(".connect").classList.remove("visible");
-		// document.querySelector(".disconnect").classList.add("visible");
-
 		return [];
 	}
 };

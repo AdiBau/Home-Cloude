@@ -3,6 +3,8 @@ import { ContextOptionsFTP } from "../../../contextHomeCloude/contextHome";
 
 interface Props {
 	setUstawieniaFTP: (e: boolean) => void;
+	setBars: (e: boolean) => void;
+	setShowMenuOptions: (e: boolean) => void;
 }
 export const OptionsFTP = (props: Props) => {
 	const contextOptionsFTP = useContext(ContextOptionsFTP);
@@ -10,6 +12,8 @@ export const OptionsFTP = (props: Props) => {
 	const { getOptions, options, setOptions, saveOptions } = contextOptionsFTP;
 	const handlerAnuluj = () => {
 		props.setUstawieniaFTP(false);
+		props.setBars(false);
+		props.setShowMenuOptions(false);
 	};
 
 	return (
@@ -26,13 +30,13 @@ export const OptionsFTP = (props: Props) => {
 					<input type="password" id={"pass"} placeholder="password" value={options.passFtp} onChange={(e) => setOptions({ ...options, passFtp: e.target.value })} />
 				</div>
 				<div className="buttonsOptions">
-					<button className={"zapisz button"} onClick={saveOptions}>
+					<button className={"zapisz button"} onClick={saveOptions} onMouseDown={handlerAnuluj}>
 						Zapisz
 					</button>
-					<button className={"wczytaj button"} onClick={getOptions}>
+					<button className={"wczytaj button"} onClick={getOptions} onMouseDown={handlerAnuluj}>
 						Wczytaj
 					</button>
-					<button className={"anuluj button"} onClick={handlerAnuluj}>
+					<button className={"anuluj button"} onClick={handlerAnuluj} onMouseDown={handlerAnuluj}>
 						Anuluj{" "}
 					</button>
 				</div>

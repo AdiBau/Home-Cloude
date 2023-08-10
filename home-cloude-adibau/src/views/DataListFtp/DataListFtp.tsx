@@ -1,4 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import useLongPress from "../../helpFunction/longPress";
 
 import "./DataListFtp.css";
 
@@ -6,16 +7,66 @@ import { Adress } from "../../helpFunction/homeOrSerwer";
 import { readList, sortData, pathPwd, adresPath } from "../../helpFunction/helpFunction";
 import { ContextHome } from "../../contextHomeCloude/contextHome";
 
+import { RemoveButton } from "./DotsIcon/RemoveButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { promises } from "dns";
+import { toast } from "react-toastify";
+
+interface Position {
+	x: number | string;
+	y: number;
+}
+
 export const DataListFtp = () => {
 	const [longPressed, setLongPressed] = useState<boolean>(false);
+	const [position, setPosition] = useState<Position>({ x: "15%", y: 0 });
+	const [removeItem, setRemoveItem] = useState<string>("");
 
 	const context = useContext(ContextHome);
 	const linkA = useRef<HTMLAnchorElement>(null);
 
 	if (!context) return null;
-	const { connect, data, setData, setLoading } = context;
+	const { connect, data, setData, setLoading, setReload, reload } = context;
+
+	const onLongPress = (e: any) => {
+		setLongPressed(false);
+		document.querySelector(".selected")?.classList.remove("selected");
+		if (e.target.innerText.indexOf(".") === -1) return;
+		if (adresPath.path !== "cloude://") {
+			if (removeItem === e.target.innerText) {
+				setLongPressed(false);
+				setRemoveItem("");
+				return;
+			}
+			if (e.target.className === "list-item") {
+				e.target?.classList.toggle("selected");
+
+				setRemoveItem(e.target.innerText);
+			} else {
+				setRemoveItem(e.target.innerText);
+				e.target.parentElement?.classList.toggle("selected");
+			}
+			setPosition((prev) => ({ ...prev, y: e.pageY }));
+			setLongPressed(true);
+		}
+	};
+
+	const onClick = (e: any) => {
+		if (e.target?.innerText !== undefined) {
+			goInFile(e.target.innerText);
+		}
+	};
+	const onGuzik = (e: any) => {};
+
+	const defaultOptions = {
+		shouldPreventDefault: true,
+		delay: 500,
+	};
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const longPressEvent = useLongPress(onLongPress, onGuzik, onClick, defaultOptions);
 
 	const goInFile = async (name: string) => {
+		if (longPressed) return;
 		setLoading(true);
 		if (name.indexOf(".") === -1) {
 			try {
@@ -43,28 +94,19 @@ export const DataListFtp = () => {
 		}
 		setLoading(false);
 	};
-
-	//longPress
-	let tab = {
-		jeden: 0,
-		dwa: 0,
-	};
-	const moje = (a: HTMLDivElement) => {
-		tab.jeden = Number(new Date().getTime());
-	};
-	const moje2 = (a: HTMLDivElement, name: string) => {
-		tab.dwa = Number(new Date().getTime());
-
-		const wynik = tab.dwa - tab.jeden;
-		if (wynik < 250) {
-			(async () => await goInFile(name))();
-		} else {
-			a.classList.toggle("selected");
-
-			setLongPressed((prev) => !prev);
+	const removeFile = async (): Promise<void> => {
+		const data = await fetch(Adress.removeFile + removeItem, {
+			method: "DELETE",
+		});
+		if (data.status === 200) {
+			toast.success(`Pomyślnie usunięto plik ${removeItem}`);
 		}
+		toast.error(`Błąd przy usuwaniu pliku ${removeItem}`);
+		setRemoveItem("");
+		setLongPressed(false);
+		setReload(!reload);
 	};
-	//longPress End
+
 	return (
 		<>
 			<a href="https://getMy.pl" ref={linkA} style={{ display: "none" }}>
@@ -78,7 +120,6 @@ export const DataListFtp = () => {
 						<p>. . . Brak plików do wyświetlenia . . .</p>
 					</div>
 				)}
-
 				<div className="MenuPath">{adresPath.path}</div>
 
 				{data.map((e, i) => {
@@ -101,30 +142,26 @@ export const DataListFtp = () => {
 					}
 
 					return (
-						<div
-							className="list-item"
-							key={i}
-							onMouseDown={(a) => moje(a.currentTarget)}
-							onMouseUp={(a) => moje2(a.currentTarget, e.name)}
-							//onTouchStart={(a) => moje(a.currentTarget)}
-							//onTouchEnd={(a) => moje2(a.currentTarget, e.name)}
-						>
+						<div className="list-item" key={e.name} {...longPressEvent}>
 							<div className="img">
 								<img src={icon} alt={`icon Logo ${icon}`} />
 							</div>
-							<p
-							// onMouseDown={(a) => moje(a.currentTarget)}
-							// onMouseUp={(a) => moje2(a.currentTarget, e.name)}
-							// onTouchStart={(a) => moje(a.currentTarget)}
-							// onTouchEnd={(a) => moje2(a.currentTarget, e.name)}
-							>
-								{e.name}
+							<p className="list-item-data">{e.name}</p>
+							{e.size > 0 ? <FontAwesomeIcon icon="cloud-arrow-down" size="lg" onClick={() => goInFile(e.name)} /> : null}
+
+							<p className="size">
+								{e.size > 0 &&
+									(e.size / 1024 < 1
+										? (e.size / 1024).toFixed(2) + "KB"
+										: e.size / 1024 / 1024 > 1024
+										? (e.size / 1024 / 1024 / 1024).toFixed(2) + "GB"
+										: (e.size / 1024 / 1024).toFixed(2) + " MB")}
 							</p>
-							<p className="size">{e.size > 0 && (e.size / 1024 < 1 ? (e.size / 1024).toFixed(2) + "KB" : (e.size / 1024 / 1024).toFixed(2) + " MB")}</p>
 						</div>
 					);
 				})}
 			</div>
+			{longPressed && <RemoveButton removeFile={removeFile} position={position} item={removeItem} />}
 		</>
 	);
 };

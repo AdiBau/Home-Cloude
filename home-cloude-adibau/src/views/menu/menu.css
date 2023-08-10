@@ -1,22 +1,36 @@
 .menu {
+	box-sizing: border-box;
+	display: grid;
 	height: 50px;
-	padding: 5px 20px;
+	padding: 0 15px;
 	position: fixed;
 	left: 0;
-	right: 0;
 	top: 0;
+	right: 0;
 	background-color: #29a6dc;
-	display: grid;
-	grid-template-columns: 10% 80% 10%;
+	grid-template-columns: 25px auto 25px;
 	gap: 5px;
 	align-items: center;
-	justify-content: center;
 }
 .MenuBars {
 	display: grid;
-	padding-left: 5px;
 	justify-content: left;
 	font-size: 18px;
+}
+
+.MenuCenter {
+	display: block;
+	max-width: 100%;
+}
+.buttonsNavigation {
+	display: grid;
+	min-width: 90%;
+	max-width: 99%;
+	align-items: center;
+	grid-template-columns: auto auto auto;
+	justify-content: space-around;
+	background-color: rgb(41, 166, 220);
+	margin-top: 2px;
 }
 .MenuConnect {
 	display: grid;
@@ -24,24 +38,18 @@
 	justify-content: right;
 	font-size: 18px;
 }
-.MenuCenter {
-	display: grid;
-	grid-template-columns: auto auto auto;
-	height: 100%;
-	overflow: hidden;
-	align-items: center;
-	justify-content: center;
-}
+
 .MenuPath {
-	display: grid;
-	grid-template-rows: auto;
-	align-items: center;
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
 	justify-content: left;
-	padding: 2px 0 2px 20px;
+	padding: 2px 10px 2px 20px;
 	border-bottom: 1px solid white;
-	/* margin-bottom: 5px; */
 	font-size: 12px;
+	overflow: hidden;
 }
+
 .MenuOptions {
 	position: absolute;
 	left: 5px;
@@ -98,23 +106,23 @@
 	font-size: 12px;
 	font-weight: bolder;
 }
-.buttonsNavigation {
-	display: grid;
-	grid-template-columns: auto auto auto;
-	gap: 5px;
-	background-color: rgb(41, 166, 220);
-	margin-top: 2px;
-}
 .button {
 	display: grid;
 	background-color: rgb(41, 166, 220);
 	font-size: 13px;
 	font-weight: bold;
-	box-shadow: 0px 0px 5px white;
+	box-shadow: 0px 0px 7px white;
 	padding: 2px 2px;
-
-	letter-spacing: 1.2px;
+	/* letter-spacing: 1.2px; */
 	align-self: center;
 	justify-self: center;
 	text-transform: uppercase;
+}
+.menuButton {
+	padding: 5px 25px;
+}
+@media screen and (max-width: 500px) {
+	.menuButton {
+		padding: 5px 5px;
+	}
 }
