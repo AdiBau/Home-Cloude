@@ -1,17 +1,17 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {  useContext,  useRef, useState } from "react";
 import useLongPress from "../../helpFunction/longPress";
 
-import "./DataListFtp.css";
 
 import { Adress } from "../../helpFunction/homeOrSerwer";
 import { readList, sortData, pathPwd, adresPath } from "../../helpFunction/helpFunction";
 import { ContextHome } from "../../contextHomeCloude/contextHome";
 
-import { RemoveButton } from "./DotsIcon/RemoveButton";
+import { RemoveButton } from "./RemoveButton/RemoveButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { promises } from "dns";
+
 import { toast } from "react-toastify";
 
+import "./DataListFtp.css";
 interface Position {
 	x: number | string;
 	y: number;
