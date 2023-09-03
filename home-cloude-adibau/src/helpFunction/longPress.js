@@ -12,14 +12,13 @@ const useLongPress = (onLongPress, onGuzik, onClick, { shouldPreventDefault = tr
 					passive: false,
 				});
 				target.current = event.target;
-				onGuzik(event);
 			}
 			timeout.current = setTimeout(() => {
 				onLongPress(event);
 				setLongPressTriggered(true);
 			}, delay);
 		},
-		[onLongPress, delay, shouldPreventDefault, onGuzik]
+		[onLongPress, delay, shouldPreventDefault]
 	);
 
 	const clear = useCallback(
@@ -35,11 +34,11 @@ const useLongPress = (onLongPress, onGuzik, onClick, { shouldPreventDefault = tr
 	);
 
 	return {
-		onMouseDown: (e, aaa) => start(e, aaa),
-		onTouchStart: (e, aaa) => start(e, aaa),
-		onMouseUp: (e, aaa) => clear(e),
+		onMouseDown: (e) => start(e),
+		onTouchStart: (e) => start(e),
+		onMouseUp: (e) => clear(e),
 		onMouseLeave: (e) => clear(e, false),
-		onTouchEnd: (e, aaa) => clear(e, aaa),
+		onTouchEnd: (e) => clear(e),
 	};
 };
 

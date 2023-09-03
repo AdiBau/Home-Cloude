@@ -1,6 +1,5 @@
-import React, {  useContext,  useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import useLongPress from "../../helpFunction/longPress";
-
 
 import { Adress } from "../../helpFunction/homeOrSerwer";
 import { readList, sortData, pathPwd, adresPath } from "../../helpFunction/helpFunction";
@@ -29,7 +28,9 @@ export const DataListFtp = () => {
 	const { connect, data, setData, setLoading, setReload, reload } = context;
 
 	const onLongPress = (e: any) => {
-		setLongPressed(false);
+		// if()
+		console.log(e.type);
+		setLongPressed(true);
 		document.querySelector(".selected")?.classList.remove("selected");
 		if (e.target.innerText.indexOf(".") === -1) return;
 		if (adresPath.path !== "cloude://") {
@@ -46,14 +47,18 @@ export const DataListFtp = () => {
 				setRemoveItem(e.target.innerText);
 				e.target.parentElement?.classList.toggle("selected");
 			}
-			setPosition((prev) => ({ ...prev, y: e.pageY }));
+			console.log(e.target.offsetTop);
+			setPosition((prev) => ({ ...prev, y: e.target.offsetTop }));
 			setLongPressed(true);
 		}
 	};
 
 	const onClick = (e: any) => {
-		if (e.target?.innerText !== undefined) {
-			goInFile(e.target.innerText);
+		console.log("click");
+		if (longPressed === false) {
+			if (e.target?.innerText !== undefined) {
+				goInFile(e.target.innerText);
+			}
 		}
 	};
 	const onGuzik = (e: any) => {};
