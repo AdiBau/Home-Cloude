@@ -28,9 +28,6 @@ export const DataListFtp = () => {
 	const { connect, data, setData, setLoading, setReload, reload } = context;
 
 	const onLongPress = (e: any) => {
-		// if()
-		console.log(e.type);
-		setLongPressed(true);
 		document.querySelector(".selected")?.classList.remove("selected");
 		if (e.target.innerText.indexOf(".") === -1) return;
 		if (adresPath.path !== "cloude://") {
@@ -47,28 +44,27 @@ export const DataListFtp = () => {
 				setRemoveItem(e.target.innerText);
 				e.target.parentElement?.classList.toggle("selected");
 			}
+			setLongPressed(true);
 			console.log(e.target.offsetTop);
-			setPosition((prev) => ({ ...prev, y: e.target.offsetTop }));
+			setPosition((prev) => ({ ...prev, y: e.target.offsetTop > 120 ? e.target.offsetTop - 60 : 120 }));
 			setLongPressed(true);
 		}
 	};
 
 	const onClick = (e: any) => {
-		console.log("click");
 		if (longPressed === false) {
 			if (e.target?.innerText !== undefined) {
 				goInFile(e.target.innerText);
 			}
 		}
 	};
-	const onGuzik = (e: any) => {};
 
 	const defaultOptions = {
 		shouldPreventDefault: true,
 		delay: 500,
 	};
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const longPressEvent = useLongPress(onLongPress, onGuzik, onClick, defaultOptions);
+	const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
 
 	const goInFile = async (name: string) => {
 		if (longPressed) return;
@@ -110,6 +106,12 @@ export const DataListFtp = () => {
 		setRemoveItem("");
 		setLongPressed(false);
 		setReload(!reload);
+	};
+	const NotRemoveFile = async (): Promise<void> => {
+		setRemoveItem("");
+		setLongPressed(false);
+		setReload(!reload);
+		document.querySelector(".selected")?.classList.remove("selected");
 	};
 
 	return (
@@ -166,7 +168,7 @@ export const DataListFtp = () => {
 					);
 				})}
 			</div>
-			{longPressed && <RemoveButton removeFile={removeFile} position={position} item={removeItem} />}
+			{longPressed && <RemoveButton notremoved={NotRemoveFile} removeFile={removeFile} position={position} item={removeItem} />}
 		</>
 	);
 };
